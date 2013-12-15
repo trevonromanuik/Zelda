@@ -73,6 +73,9 @@ ipch/
 *.opensdf
 *.sdf
 
+# Visual C# cache files
+*.cacheFile
+
 # Visual Studio profiler
 *.psess
 *.vsp
