@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using Zelda.GameObjects;
+
 namespace Zelda
 {
     class Bomb : GameObject
@@ -30,7 +32,7 @@ namespace Zelda
             if (timer > 5)
             {
                 //IsActive = false;
-                RoomManager.Instance.CurrentRoom.GameObjectManager.AddGameObject(new Explosion(x, y));
+                //RoomManager.Instance.CurrentRoom.GameObjectManager.AddGameObject(new Explosion(x, y));
             }
         }
 

@@ -17,7 +17,7 @@ namespace Zelda
 
         public override void Use(int x, int y)
         {
-            RoomManager.Instance.CurrentRoom.GameObjectManager.AddGameObject(new Bomb(x, y));
+            //RoomManager.Instance.CurrentRoom.GameObjectManager.AddGameObject(new Bomb(x, y));
         }
     }
 }

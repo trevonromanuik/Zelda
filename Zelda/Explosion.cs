@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using Zelda.GameObjects;
+
 namespace Zelda
 {
     class Explosion : GameObject
@@ -25,7 +27,7 @@ namespace Zelda
             this.x = x;
             this.y = y;
 
-            explosionAnimation = new Animation(explosionTexture, 0.1f, false);
+            explosionAnimation = new Animation(explosionTexture, 16, 16, 0.1f, false);
             sprite.PlayAnimation(explosionAnimation);
         }
 

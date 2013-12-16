@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Zelda.GameObjects;
+
 namespace Zelda.Components
 {
     abstract class Component

@@ -52,28 +52,23 @@ namespace Zelda
         /// <summary>
         /// Gets the width of a frame in the animation.
         /// </summary>
-        public int FrameWidth
-        {
-            // Assume square frames.
-            get { return Texture.Height; }
-        }
+        public int FrameWidth { get; private set; }
 
         /// <summary>
         /// Gets the height of a frame in the animation.
         /// </summary>
-        public int FrameHeight
-        {
-            get { return Texture.Height; }
-        }
+        public int FrameHeight { get; private set; }
 
         /// <summary>
         /// Constructors a new animation.
         /// </summary>        
-        public Animation(Texture2D texture, float frameTime, bool isLooping)
+        public Animation(Texture2D texture, int frameWidth, int frameHeight, float frameTime, bool isLooping)
         {
             this.texture = texture;
             this.frameTime = frameTime;
             this.isLooping = isLooping;
+            FrameWidth = frameWidth;
+            FrameHeight = frameHeight;
         }
     }
 }

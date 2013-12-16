@@ -21,7 +21,7 @@ namespace Zelda
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private InputManager _inputManager;
+        //private InputManager _inputManager;
         private ScreenManager _screenManager;
 
         public Game()
@@ -33,7 +33,7 @@ namespace Zelda
 
             Content.RootDirectory = "Content";
 
-            _inputManager = new InputManager();
+            //_inputManager = new InputManager();
             _screenManager = new ScreenManager();
         }
 
@@ -92,8 +92,8 @@ namespace Zelda
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            _inputManager.Update(gameTime.ElapsedGameTime.Milliseconds);
-            _screenManager.Update(gameTime.ElapsedGameTime.Milliseconds);
+            //_inputManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
+            _screenManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
 
             // TODO: Add your update logic here
             //RoomManager.Instance.Update(gameTime);

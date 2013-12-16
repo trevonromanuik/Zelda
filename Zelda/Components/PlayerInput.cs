@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Zelda.Events;
 
@@ -11,48 +12,54 @@ namespace Zelda.Components
 {
     class PlayerInput : Component
     {
-        public PlayerInput()
-        {
-            InputManager.FireNewInput += InputManager_FireNewInput;
-        }
+        private KeyboardState _keyState;
+        private KeyboardState _prevKeyState;
 
-        void InputManager_FireNewInput(object sender, InputEventArgs e)
+        public override void Update(double gameTime)
         {
-            var sprite = GetComponent<Sprite>();
+            var position = GetComponent<Position>();
+            if (position == null)
+                return;
+
+            var sprite = GetComponent<AnimatedSprite>();
             if (sprite == null)
                 return;
+
+            _keyState = Keyboard.GetState();
+
+            bool isUp = _keyState.IsKeyDown(Keys.Up);
+            bool isDown = _keyState.IsKeyDown(Keys.Down);
+            bool isLeft = _keyState.IsKeyDown(Keys.Left);
+            bool isRight = _keyState.IsKeyDown(Keys.Right);
 
             var x = 0.0f;
             var y = 0.0f;
 
-            switch (e.Input)
+            if (isUp ^ isDown)
+                y = isUp ? -1.5f : 1.5f;
+
+            if (isLeft ^ isRight)
+                x = isLeft ? -1.5f : 1.5f;
+
+            if (x == 0 && y == 0)
             {
-                case Input.Up:
-                    y = -1.5f;
-                    break;
+                sprite.Freeze();
+            }
+            else
+            {
+                sprite.Unfreeze();
+                if (x != 0 ^ y != 0)
+                {
+                    if (x > 0) sprite.PlayAnimation("right");
+                    else if (x < 0) sprite.PlayAnimation("left");
+                    else if (y > 0) sprite.PlayAnimation("down");
+                    else if (y < 0) sprite.PlayAnimation("up");
+                }
 
-                case Input.Down:
-                    y = 1.5f;
-                    break;
-
-                case Input.Left:
-                    x = -1.5f;
-                    break;
-
-                case Input.Right:
-                    x = 1.5f;
-                    break;
-
-                default:
-                    return;
+                position.Move(x, y);
             }
 
-            sprite.Move(x, y);
-        }
-
-        public override void Update(double gameTime)
-        {
-            
+            _prevKeyState = _keyState;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
