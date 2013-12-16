@@ -10,8 +10,9 @@ namespace Zelda.Components
 {
     class AnimatedSprite : Component
     {
+        public Animation Animation { get; set; }
+
         private Dictionary<string, Animation> _animations;
-        private Animation _currentAnimation;
         private int _frameIndex;
         private double _time;
         private bool _frozen;
@@ -28,10 +29,10 @@ namespace Zelda.Components
 
         public void PlayAnimation(string name)
         {
-            if (_currentAnimation == _animations[name])
+            if (Animation == _animations[name])
                 return;
 
-            _currentAnimation = _animations[name];
+            Animation = _animations[name];
             _frameIndex = 0;
             _time = 0.0f;
         }
@@ -48,7 +49,7 @@ namespace Zelda.Components
 
         public override void Update(double gameTime)
         {
-            if (_currentAnimation == null)
+            if (Animation == null)
                 throw new NotSupportedException("No animation is currently playing.");
 
             // Process passing time.
@@ -56,18 +57,18 @@ namespace Zelda.Components
             if (!_frozen)
             {
                 _time += gameTime;
-                while (_time > _currentAnimation.FrameTime)
+                while (_time > Animation.FrameTime)
                 {
-                    _time -= _currentAnimation.FrameTime;
+                    _time -= Animation.FrameTime;
 
                     // Advance the frame index; looping or clamping as appropriate.
-                    if (_currentAnimation.IsLooping)
+                    if (Animation.IsLooping)
                     {
-                        _frameIndex = (_frameIndex + 1) % _currentAnimation.FrameCount;
+                        _frameIndex = (_frameIndex + 1) % Animation.FrameCount;
                     }
                     else
                     {
-                        _frameIndex = Math.Min(_frameIndex + 1, _currentAnimation.FrameCount - 1);
+                        _frameIndex = Math.Min(_frameIndex + 1, Animation.FrameCount - 1);
                     }
                 }
             }
@@ -83,18 +84,18 @@ namespace Zelda.Components
 
             // Calculate the source rectangle of the current frame.
             Rectangle destination = new Rectangle(
-                (int)position.X - _currentAnimation.FrameWidth / 2, 
-                (int)position.Y - _currentAnimation.FrameHeight / 2, 
-                _currentAnimation.FrameWidth, 
-                _currentAnimation.FrameHeight);
+                (int)position.X - Animation.FrameWidth / 2, 
+                (int)position.Y - Animation.FrameHeight / 2, 
+                Animation.FrameWidth, 
+                Animation.FrameHeight);
             
             Rectangle source = new Rectangle(
-                frameIndex * _currentAnimation.FrameWidth, 
+                frameIndex * Animation.FrameWidth, 
                 0, 
-                _currentAnimation.FrameWidth, 
-                _currentAnimation.FrameHeight);
+                Animation.FrameWidth, 
+                Animation.FrameHeight);
             
-            spriteBatch.Draw(_currentAnimation.Texture, destination, source, Color.White);
+            spriteBatch.Draw(Animation.Texture, destination, source, Color.White);
         }
     }
 }

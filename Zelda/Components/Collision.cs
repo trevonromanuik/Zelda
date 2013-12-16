@@ -12,17 +12,7 @@ namespace Zelda.Components
 {
     class Collision : Component
     {
-        public override void Update(double gameTime)
-        {
-            
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            
-        }
-
-        public bool CheckCollision(Rectangle bounds)
+        public Point CheckCollision(Rectangle bounds)
         {
             int tileX = (int)Math.Floor((float)bounds.Center.X / 16);
             int tileY = (int)Math.Floor((float)bounds.Center.Y / 16);
@@ -39,12 +29,37 @@ namespace Zelda.Components
                 {
                     if (Map.Instance.CurrentPanel.Tiles[i, j] == 1)
                     {
-                        return true;
+                        Rectangle tileBounds = new Rectangle(j * 16, i * 16, 16, 16);
+                        Vector2 depth = bounds.GetIntersectionDepth(tileBounds);
+                        if (depth != Vector2.Zero)
+                        {
+                            float absDepthX = Math.Abs(depth.X);
+                            float absDepthY = Math.Abs(depth.Y);
+
+                            if (absDepthY < absDepthX)
+                            {
+                                bounds.Y += (int)depth.Y;
+                            }
+                            else
+                            {
+                                bounds.X += (int)depth.X;
+                            }
+                        }
                     }
                 }
             }
 
-            return false;
+            return bounds.Center;
+        }
+
+        public override void Update(double gameTime)
+        {
+
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+
         }
     }
 }
