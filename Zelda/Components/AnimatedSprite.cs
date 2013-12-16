@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zelda.Components
 {
-    class AnimatedSprite : Component
+    class AnimatedSprite : Sprite
     {
         public Animation Animation { get; set; }
 
@@ -18,6 +18,7 @@ namespace Zelda.Components
         private bool _frozen;
 
         public AnimatedSprite()
+            : base(null)
         {
             _animations = new Dictionary<string, Animation>();
         }
@@ -45,6 +46,16 @@ namespace Zelda.Components
         public void Unfreeze()
         {
             _frozen = false;
+        }
+
+        public override int Width
+        {
+            get { return Animation.FrameWidth; }
+        }
+
+        public override int Height
+        {
+            get { return Animation.FrameHeight; }
         }
 
         public override void Update(double gameTime)

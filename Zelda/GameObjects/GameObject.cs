@@ -23,7 +23,23 @@ namespace Zelda.GameObjects
 
         public T GetComponent<T>() where T : Component
         {
-            return (T)_components.Find(x => x.GetType() == typeof(T));
+            return (T)_components.Find(x => IsOfType<T>(x));
+        }
+
+        private bool IsOfType<T>(Component component) where T : Component
+        {
+            Type cType = typeof(Component);
+            Type tType = typeof(T);
+
+            Type type = component.GetType();
+            while (type != cType)
+            {
+                if (type == tType)
+                    return true;
+
+                type = type.BaseType;
+            }
+            return false;
         }
 
         public void AddComponent(Component component)

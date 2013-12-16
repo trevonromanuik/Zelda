@@ -12,16 +12,15 @@ namespace Zelda.Components
 {
     class Collision : Component
     {
-        public Point CheckCollision(Rectangle bounds)
+        public Vector2 CheckCollision(Vector2 position, int width, int height)
         {
-            int tileX = (int)Math.Floor((float)bounds.Center.X / 16);
-            int tileY = (int)Math.Floor((float)bounds.Center.Y / 16);
+            int minI = Math.Max(0, (int)Math.Floor((position.Y - (height / 2)) / 16));
+            int maxI = Math.Min(Map.Instance.CurrentPanel.Tiles.GetLength(0) - 1, (int)Math.Floor((position.Y + (height / 2)) / 16));
 
-            int minI = Math.Max(0, tileY - 1);
-            int maxI = Math.Min(Map.Instance.CurrentPanel.Tiles.GetLength(0) - 1, tileY + 1);
+            int minJ = Math.Max(0, (int)Math.Floor((position.X - (width / 2)) / 16));
+            int maxJ = Math.Min(Map.Instance.CurrentPanel.Tiles.GetLength(1) - 1, (int)Math.Floor((position.X + (width / 2)) / 16));
 
-            int minJ = Math.Max(0, tileX - 1);
-            int maxJ = Math.Min(Map.Instance.CurrentPanel.Tiles.GetLength(1) - 1, tileX + 1);
+            Rectangle bounds = new Rectangle((int)position.X - (width / 2), (int)position.Y - (height / 2), width, height);
 
             for (int i = minI; i <= maxI; ++i)
             {
@@ -39,17 +38,19 @@ namespace Zelda.Components
                             if (absDepthY < absDepthX)
                             {
                                 bounds.Y += (int)depth.Y;
+                                position.Y += depth.Y;
                             }
                             else
                             {
                                 bounds.X += (int)depth.X;
+                                position.X += depth.X;
                             }
                         }
                     }
                 }
             }
 
-            return bounds.Center;
+            return position;
         }
 
         public override void Update(double gameTime)

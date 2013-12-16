@@ -12,6 +12,8 @@ namespace Zelda.Components
 {
     class PlayerInput : Component
     {
+        private const float _speed = 1.5f;
+
         private KeyboardState _keyState;
         private KeyboardState _prevKeyState;
 
@@ -36,10 +38,10 @@ namespace Zelda.Components
             var y = 0.0f;
 
             if (isUp ^ isDown)
-                y = isUp ? -1.5f : 1.5f;
+                y = isUp ? -_speed : _speed;
 
             if (isLeft ^ isRight)
-                x = isLeft ? -1.5f : 1.5f;
+                x = isLeft ? -_speed : _speed;
 
             if (x == 0 && y == 0)
             {

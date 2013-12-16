@@ -11,14 +11,19 @@ namespace Zelda.Components
     class Sprite : Component
     {
         private Texture2D _texture;
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public virtual int Width 
+        {
+            get { return _texture.Width; }
+        }
+        
+        public virtual int Height 
+        {
+            get { return _texture.Height; }
+        }
 
-        public Sprite(Texture2D texture, int width, int height)
+        public Sprite(Texture2D texture)
         {
             _texture = texture;
-            Width = width;
-            Height = height;
         }
 
         public override void Update(double gameTime)

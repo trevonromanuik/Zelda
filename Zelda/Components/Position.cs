@@ -50,17 +50,7 @@ namespace Zelda.Components
                 var sprite = GetComponent<Sprite>();
                 if (sprite != null)
                 {
-                    Rectangle bounds = new Rectangle((int)(x - sprite.Width / 2), (int)(y - sprite.Width / 2), sprite.Width, sprite.Height);
-                    var point = collision.CheckCollision(bounds);
-                    x = point.X;
-                    y = point.Y;
-                }
-                else
-                {
-                    var animatedSprite = GetComponent<AnimatedSprite>();
-                    var animation = animatedSprite.Animation;
-                    Rectangle bounds = new Rectangle((int)(x - animation.FrameWidth / 2), (int)(y - animation.FrameHeight / 2), animation.FrameWidth, animation.FrameHeight);
-                    var point = collision.CheckCollision(bounds);
+                    var point = collision.CheckCollision(new Vector2(x, y), sprite.Width, sprite.Height);
                     x = point.X;
                     y = point.Y;
                 }
